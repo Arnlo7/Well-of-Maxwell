@@ -1,0 +1,33 @@
+{% extends "well_of_maxwell/base.html" %}
+
+{% block content %}
+<div> 
+    <a href="{% url 'edit-home' %}" class="btn btn-warning">Edit Home</a>        
+    <a href="{% url 'edit-exp1' %}" class="btn btn-warning">Edit Exp1</a>        
+    <a href="{% url 'edit-exp2' %}" class="btn btn-warning">Edit Exp2</a>        
+</div>
+<div>Add and Delete Modules:</div>
+<div>
+    <b>Add a New Module: </b>
+    <form action ="{% url 'add-module' 0 %}"  method = "POST" enctype="multipart/form-data">
+        <table>
+            {{form}}
+        </table>
+        <!--<button type="submit" class="btn btn-success">Submit</button> -->
+        <button type="submit" class ="btn btn-success">Submit</button>
+        {% csrf_token %}
+    </form>
+</div>
+<div id="my-modules-go-here">
+    
+</div>
+
+<div id="my-temp-go-here">
+
+</div>
+
+<script> 
+    window.onload=loadEditHome
+    window.setInterval(loadEditHome, 5000);
+</script>
+{% endblock %}

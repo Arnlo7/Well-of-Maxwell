@@ -1,0 +1,120 @@
+{% extends "well_of_maxwell/base.html" %}
+
+{% block content %}
+<!--<div>Welcome {{username}}!</div> 
+<div>Welcome!</div>
+<div>How well do you understand physics?</div>
+<div>How well do you understand electromagnetics?</div>
+-->
+
+<h1 class = 'h1 bold center' id = 'id_page_name'>{{module.page_title}}</h1>
+<img src="{% url 'get-module-photo' module.id %}"alt="Error displaying picture"></img>
+<div class = "row">
+    {% for curr_content in content %}
+    <div class = "col_md_1"></div>
+    <div class ="card col-md-12 shadow p-3 mb-5 bg-white rounded">
+        <h2 class ='bold'>{{curr_content.section_title}}</h2>
+        {% for curr_text in text %}
+            {% if curr_text.content_block.id == curr_content.id %}
+                <div>{{curr_text.text}}</div>
+                <div></div>
+            {% endif %}
+        {% endfor %}
+        {% for curr_image in image %}
+            {% if curr_image.content_block.id == curr_content.id %}
+            <img src="{% url 'get-content-photo' curr_image.id %}"alt="Error displaying picture"></img>
+            {% endif %}
+        {% endfor %}
+        {% for curr_exercise in exercise %}
+            {% if curr_exercise.content_block.id == curr_content.id %}
+            <div>
+                <div id = "exercise_{{curr_exercise.id}}" class="alert alert-primary" role="alert">{{curr_exercise.question}}
+                    {% for curr_answer in answer %}
+                        {% if curr_answer.exercise_block.id == curr_exercise.id %}
+                            {% if curr_answer.text == curr_exercise.correct %}
+                                <div></div>
+                                <button id = "correct" type="button" name="answer" value="Show Div" onclick="showCorrect('{{curr_exercise.id}}')" class="btn btn-light col-sm-3">{{curr_answer.text}}</button>
+                            {% else %}
+                                <div></div>
+                                <button id = "incorrect" type="button" name="answer" value="Show Div" onclick="showIncorrect('{{curr_exercise.id}}')" class="btn btn-light col-sm-3">{{curr_answer.text}}</button>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                    <div id="answerDiv_{{curr_exercise.id}}"  style="display:none;" class="answer_list">Correct Answer: {{curr_exercise.correct}}</div>
+                </div>
+            </div>
+            {% endif %}
+        {% endfor %}
+        <!-- Admin only adding options: -->
+        {% if isAdmin %}
+            <b>Add an Image:</b>
+            <form action ="{% url 'add-image' curr_content.id module.id difficulty%}"  method = "POST" enctype="multipart/form-data">
+                <table>
+                    {{form}}
+                </table>
+
+                <!--<button type="submit" class="btn btn-success">Submit</button> -->
+                <button type="submit" class ="btn btn-success">Submit</button>
+                {% csrf_token %}
+            </form>
+            <b>Add an Exercise:</b>
+            <form action ="{% url 'add-exercise' curr_content.id module.id difficulty%}"  method = "POST" enctype="multipart/form-data">
+                <table>
+                    {{form2}}
+                </table>
+
+                <!--<button type="submit" class="btn btn-success">Submit</button> -->
+                <button type="submit" class ="btn btn-success">Submit</button>
+                {% csrf_token %}
+            </form>
+            {% endif %}
+    </div>
+    <div class="col-md-1"></div>
+    {% endfor %}
+</div>
+{% if module.number != 1 %}
+<a href="{% url 'home' prev_id difficulty%}" class="btn btn-secondary">Previous Module</a>
+{% endif %}
+{% if module.number != max_length %}
+<a href="{% url 'home' next_id difficulty%}" class="btn btn-primary">Next Module</a>
+{% endif %}
+{% if module.number == max_length %}
+<a href="{% url 'exp1' exp1_id 0%}" class="btn btn-secondary">Enter Experiment 1</a>        
+<a href="{% url 'exp2' exp2_id 0%}" class="btn btn-secondary">Enter Experiment 2</a> 
+{% endif %}
+
+
+<script>
+    function showCorrect(id) {
+        var temp = 'answerDiv' + '_' + id
+        console.log(temp)
+        document.getElementById(temp).style.display = "block";
+        var temp2 = 'exercise_' + id
+        var overall = document.getElementById(temp2)
+        if(overall.classList.contains('alert-primary')){
+            overall.classList.remove('alert-primary')
+            overall.classList.add('alert-success')
+        }
+        else{
+            overall.classList.remove('alert-danger')
+            overall.classList.add('alert-success')
+        }
+}
+    function showIncorrect(id) {
+        var temp = 'answerDiv' + '_' + id
+        console.log(temp)
+        document.getElementById(temp).style.display = "block";
+        var temp2 = 'exercise_' + id
+        var overall = document.getElementById(temp2)
+        if(overall.classList.contains('alert-primary')){
+            overall.classList.remove('alert-primary')
+            overall.classList.add('alert-danger')
+        }
+        else{
+            overall.classList.remove('alert-success')
+            overall.classList.add('alert-danger')
+        }
+}
+</script>
+
+{% endblock %}

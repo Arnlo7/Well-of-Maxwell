@@ -1,0 +1,60 @@
+{% extends "well_of_maxwell/base.html" %}
+
+{% block content %}
+<!--
+    <div>
+    <a href="{% url 'quiz-start' %}" class="btn btn-secondary">Enter Quiz</a> 
+</div>
+-->
+
+<!--<div>Welcome {{username}}!</div> 
+<div>Welcome!</div>
+<div>How well do you understand physics?</div>
+<div>How well do you understand electromagnetics?</div>
+-->
+    <b>{{module.page_title}}: </b>
+    <!-- temporary DIV for spacing -->
+    <!--<img src="{% url 'get-module-photo' module.id %}"alt="Error displaying picture" width = "200"></img>-->
+    <div class = "row">
+        {% for curr_content in content %}
+        <div class = "col_md_1"></div>
+        <div class ="card col-md-12 shadow p-3 mb-5 bg-white rounded">
+            <div>{{curr_content.section_title}}</div>
+            {% for curr_text in text %}
+                {% if curr_text.content_block.id == curr_content.id %}
+                    <div>{{curr_text.text}}</div>
+                {% endif %}
+            {% endfor %}
+            {% for curr_image in image %}
+                {% if curr_image.content_block.id == curr_content.id %}
+                <img src="{% url 'get-content-photo' curr_image.id %}"alt="Error displaying picture" width = "100"></img>
+                {% endif %}
+            {% endfor %}
+            {% for curr_exercise in exercise %}
+                {% if curr_exercise.content_block.id == curr_content.id %}
+                <div>
+                    <div>{{curr_exercise.question}}</div>
+                    {% for answer in curr_exercise.answers %}
+                        <div>{{answer}}</div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="col-md-1"></div>
+        {% endfor %}
+    </div>
+
+{% if module.number != 1 %}
+<a href="{% url 'exp2' prev_id 0%}" class="btn btn-secondary">Previous Module</a>
+{% endif %}
+{% if module.number != max_length %}
+<a href="{% url 'exp2' next_id 0%}" class="btn btn-primary">Next Module</a>
+{% endif %}
+{% if module.number == max_length %}
+<a href="{% url 'exp2-end' %}" class="btn btn-secondary">Begin Experiment</a>        
+{% endif %}
+
+
+
+{% endblock %}

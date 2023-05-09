@@ -1,0 +1,22 @@
+{% extends "well_of_maxwell/base.html" %}
+
+{% block content %}
+<div class = "row">
+    {% for curr_quiz in quizzes %}
+        <div>Question {{curr_quiz.number}}:</div>
+        <div id = "quiz_{{curr_quiz.number}}" class="alert alert-primary" role="alert">{{curr_quiz.question}}
+            {% for curr_answer in answers %}
+                {% if curr_answer.quiz_block.id == curr_quiz.id %}
+                    {% if curr_answer.text == curr_quiz.correct %}
+                        <div></div>
+                        <a id = "correct" href="{% url 'parse-quiz' next_id score_id 0%}" type="button" class="btn btn-secondary col-sm-3">{{curr_answer.text}}</a>
+                    {% else %}
+                        <div></div>
+                        <a id = "incorrect" href="{% url 'parse-quiz' next_id score_id 1%}" type="button" class="btn btn-secondary col-sm-3">{{curr_answer.text}}</a>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

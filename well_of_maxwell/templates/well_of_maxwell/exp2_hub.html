@@ -1,0 +1,33 @@
+{% extends "well_of_maxwell/base.html" %}
+
+{% block content %}
+<div class='center'>
+    <h1 class = 'bold' id = 'id_page_name'>Modules</h1>
+</div>
+
+<div class="row">
+    {%for module in modules %}
+    {% if module.module_type == 2 %}
+        <div class="col-md-4"></div>
+                <div class="card col-md-4 shadow p-3 mb-5 bg-white rounded">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">{{module.page_title}}</h5>
+                    </div>
+                    <div class="list-group list-group-flush text-center">
+                        <li class="list-group-item">
+                            <a href="{% url 'exp2' module.id 0%}" class="btn btn-primary">Enter Module</a>
+                        </li>
+                    </div>
+                </div>
+                <div class="col-md-4"></div>
+                <br>
+                {% endif %}
+            {% endfor %}
+            {% if modules.count == 0 %}
+                <div class="card-body text-center">
+                    <h6 class="empty">No modules yet</h5>
+                </div>
+            {% endif %}
+</div>
+
+{% endblock %}

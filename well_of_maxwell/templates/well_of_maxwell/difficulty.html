@@ -1,0 +1,20 @@
+{% extends "well_of_maxwell/base.html" %}
+
+{% block content %}
+    <h1 class = 'h1 bold center' id = 'id_page_name'>{{module.page_title}}</h1>
+    <div class = "row">
+        <div class = "col_md_1"></div>
+        <div class ="card col-md-12 shadow p-3 mb-5 bg-white rounded">
+        <h2 class ='bold'>Diagnostic Quiz:</h2>
+        <div>
+            <div id = "exercise_{{curr_exercise.id}}" class="alert alert-primary" role="alert">What’s your experience level in math and physics?
+                            <div></div>
+                            <a href="{% url 'home-hub' 2 %}" type="button" name="answer"  class="btn btn-light col-sm-6">Concepts in differential and multivariable calculus (divergence, curl, line integrals, etc)</a>
+                            <div></div>
+                            <a href="{% url 'home-hub' 1 %}" type="button" name="answer" class="btn btn-light col-sm-6">High school physics and math (algebra, geometry)</a>
+                            <div></div>
+                            <a href="{% url 'home-hub' 0 %}" type="button" name="answer" class="btn btn-light col-sm-6">No experience</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

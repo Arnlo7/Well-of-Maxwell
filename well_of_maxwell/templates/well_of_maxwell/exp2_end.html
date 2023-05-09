@@ -1,0 +1,17 @@
+{% extends "well_of_maxwell/base.html" %}
+
+{% block content %}
+<body class="noscroll">
+    <b>Ampere Maxwell Experiment: </b>
+    <a class="btn btn-secondary" href="{% url 'quiz-start' %}">Quiz</a>
+
+<div id="my-voltage-go-here">
+    
+</div>
+
+<script> 
+    window.setInterval(checkVoltageExp2,120); 
+    /*window.setInterval(checkVoltageUpdateExp1,500);*/
+</script>
+</body>
+{% endblock %}

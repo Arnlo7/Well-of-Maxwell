@@ -1,0 +1,11 @@
+{% extends "well_of_maxwell/base.html" %}
+
+{% block content %}
+    <div> Welcome admin: </div>
+    <div> 
+        <a href="{% url 'edit-home' %}" class="btn btn-warning">Edit Home</a>        
+        <a href="{% url 'edit-exp1' %}" class="btn btn-warning">Edit Exp1</a>        
+        <a href="{% url 'edit-exp2' %}" class="btn btn-warning">Edit Exp2</a>   
+        <a href="{% url 'edit-quiz' %}" class="btn btn-warning">Edit Quiz</a>     
+    </div>
+{% endblock %}
